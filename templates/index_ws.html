@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Real-time Crowd Sentiment Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            padding: 1em;
+        }
+        #videoFrame {
+            width: 850px;  /* Fix the width as desired */
+            height: 480px; /* Fix the height as desired */
+            object-fit: cover; /* This will cover the area without stretching the video */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Real-time Players Sentiment Analysis</h1>
+    </header>
+    <div style="text-align:center; margin-top: 20px;">
+        <input type="file" id="fileInput" accept="video/*">
+        <!-- <button id="stopButton">Stop</button> -->
+        <br>
+        <img id="videoFrame" style="margin-top: 20px;"/>
+    </div>
+
+    <footer>
+        Created by Ved
+    </footer>
+
+<script>
+    const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    socket.on('frame', function(frame){
+        const image = document.getElementById('videoFrame');
+        image.src = 'data:image/jpeg;base64,' + frame;
+    });
+
+    document.getElementById('fileInput').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+        }
+    });
+
+    document.getElementById('stopButton').addEventListener('click', function() {
+        fetch('/stop', {
+            method: 'POST'
+        }).then(response => response.json())
+          .then(data => {
+              if (data.status === "Server stopped") {
+                  alert("Server has been stopped. Refresh the page to restart.");
+              }
+          });
+    });
+</script>
+
+</body>
+</html>
