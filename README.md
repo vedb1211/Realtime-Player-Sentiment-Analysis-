@@ -3,8 +3,7 @@
 
 This project involves real-time sentiment analysis of players' expressions in a cricket match using a Convolutional Neural Network (CNN). The system captures video frames, preprocesses them, and analyzes the facial expressions of players to determine their sentiments. The sentiment predictions (Happy, Neutral, or Sad) are then displayed on the video frames in real-time.
 
-
-https://github.com/vedb1211/Realtime-Player-Sentiment-Analysis-/assets/106091820/1dfebd10-3f06-4b26-aef6-c274046ea417
+https://github.com/user-attachments/assets/da0404d0-7179-418c-b651-31ed1b1ca745
 
 
 ## Project Structure
